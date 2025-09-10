@@ -1,0 +1,135 @@
+[gd_scene load_steps=8 format=3 uid="uid://bfh7b47h2quaa"]
+
+[ext_resource type="Script" uid="uid://dypmakqb58fps" path="res://Game_Management/space_environment.gd" id="1_6x3q2"]
+[ext_resource type="PackedScene" uid="uid://bhs4v4etv0rmh" path="res://Destinations/Base/destination.tscn" id="1_8xii8"]
+[ext_resource type="Script" uid="uid://dtd157yj3ayte" path="res://Game_Management/main_level.gd" id="1_13urm"]
+[ext_resource type="Script" uid="uid://jkcufcxoem6j" path="res://Objects/Ship/auto_pilot.gd" id="2_k0okc"]
+[ext_resource type="Script" uid="uid://doitfy82k3lbg" path="res://Levels/ui.gd" id="5_6opdx"]
+[ext_resource type="Theme" uid="uid://3esxwhkesbrw" path="res://UI/ui_theme.tres" id="5_k6a8t"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_k0okc"]
+
+[node name="FlyMode" type="Node3D"]
+script = ExtResource("1_13urm")
+
+[node name="SpaceEnvironment" type="Node3D" parent="."]
+script = ExtResource("1_6x3q2")
+
+[node name="Destinations" type="Node3D" parent="SpaceEnvironment"]
+
+[node name="Destination" parent="SpaceEnvironment/Destinations" instance=ExtResource("1_8xii8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -63.43305)
+
+[node name="Destination2" parent="SpaceEnvironment/Destinations" instance=ExtResource("1_8xii8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 761.60156)
+_name = "Sex"
+
+[node name="Destination3" parent="SpaceEnvironment/Destinations" instance=ExtResource("1_8xii8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -659.2146, 0, 761.60156)
+_name = "Fat"
+
+[node name="Destination4" parent="SpaceEnvironment/Destinations" instance=ExtResource("1_8xii8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -659.2146, 0, 224.34875)
+_name = "Frump"
+
+[node name="Destination5" parent="SpaceEnvironment/Destinations" instance=ExtResource("1_8xii8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -659.2146, 0, -815.7147)
+_name = "jaloopo"
+
+[node name="Destination6" parent="SpaceEnvironment/Destinations" instance=ExtResource("1_8xii8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 270.2494, 0, -815.7147)
+_name = "Glornp"
+
+[node name="Destination7" parent="SpaceEnvironment/Destinations" instance=ExtResource("1_8xii8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 270.2494, 0, -362.089)
+_name = "Glormp"
+
+[node name="Destination8" parent="SpaceEnvironment/Destinations" instance=ExtResource("1_8xii8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -923.2711, 0, -162.98563)
+_name = "Funki"
+
+[node name="StarField" type="Node3D" parent="SpaceEnvironment"]
+
+[node name="Ship" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Ship"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ship"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.955, -0.25)
+mesh = SubResource("BoxMesh_k0okc")
+
+[node name="AutoPilot" type="Node" parent="."]
+script = ExtResource("2_k0okc")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_k6a8t")
+script = ExtResource("5_6opdx")
+
+[node name="StationPanel" type="Panel" parent="UI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -323.0
+offset_top = 98.0
+offset_right = -79.0
+offset_bottom = 392.0
+grow_horizontal = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/StationPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBox" type="VBoxContainer" parent="UI/StationPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 74
+
+[node name="StationLabel" type="Label" parent="UI/StationPanel/MarginContainer/VBox"]
+layout_mode = 2
+text = "Blorpiton III"
+
+[node name="TravelToA" type="Button" parent="UI/StationPanel/MarginContainer/VBox"]
+layout_mode = 2
+text = "Travel To Station A"
+
+[node name="TravelToB" type="Button" parent="UI/StationPanel/MarginContainer/VBox"]
+layout_mode = 2
+text = "Travel to Station B"
+
+[node name="JourneyPanel" type="Panel" parent="UI"]
+layout_mode = 1
+offset_left = 32.36
+offset_top = 45.375
+offset_right = 507.36
+offset_bottom = 132.37502
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/JourneyPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="UI/JourneyPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="ProgressLabel" type="Label" parent="UI/JourneyPanel/MarginContainer/VBox"]
+layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="UI/JourneyPanel/MarginContainer/VBox"]
+layout_mode = 2
