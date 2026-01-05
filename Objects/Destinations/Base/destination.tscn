@@ -1,12 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://bhs4v4etv0rmh"]
 
-[ext_resource type="Script" uid="uid://ciajdt7f5j4b8" path="res://Destinations/Base/destination.gd" id="1_d4rqy"]
+[ext_resource type="Script" uid="uid://ciajdt7f5j4b8" path="res://Objects/Destinations/Base/destination.gd" id="1_d4rqy"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_qewbh"]
 radius = 1.0
 height = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gg3ph"]
+shading_mode = 0
 albedo_color = Color(0, 1, 1, 1)
 
 [node name="Destination" type="Node3D"]

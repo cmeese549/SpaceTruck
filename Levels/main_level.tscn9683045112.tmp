@@ -157,12 +157,6 @@ size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 41
 text = "Refuel"
 
-[node name="FuelUpgradeButton" type="Button" parent="UI/StationPanel/MarginContainer/VBox/Services"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 41
-text = "Upgrade Fuel Capacity"
-
 [node name="SpeedUpgradeButton" type="Button" parent="UI/StationPanel/MarginContainer/VBox/Services"]
 layout_mode = 2
 size_flags_horizontal = 3

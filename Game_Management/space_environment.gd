@@ -1,28 +1,28 @@
 extends Node3D
 class_name SpaceEnvironment
 
-@onready var origin_station = $Destinations/Destination
-@onready var destination_station = $Destinations/Destination2
+@onready var destinations_parent = $Destinations
 @onready var starfield = $StarField
 
-# Station positions relative to ship
-@onready var station_positions = {
-	"Station_A": $Destinations/Destination.global_position,
-	"Station_B": $Destinations/Destination2.global_position
-}
+# Dynamic station system
+var station_positions = {}  # Will be populated dynamically
+var destination_nodes = {}  # Maps station names to their nodes
 
-var journey_distance: float = 100.0  # Will be calculated from actual station positions
+var journey_distance: float = 100.0
 var current_progress: float = 0.0
 var current_from: String = ""
 var current_to: String = ""
 
 # Obstacle avoidance
-var station_influence_radius: float = 15.0  # How close to station triggers avoidance
-var avoidance_height: float = 20.0  # How high to fly over stations
+var station_influence_radius: float = 15.0
+var avoidance_height: float = 20.0
 var current_vertical_offset: float = 0.0
 var vertical_smoothing: float = 2.0
 
 func _ready():
+	# Discover all stations dynamically
+	discover_stations()
+	
 	# Connect to autopilot progress updates - wait for autopilot to be ready
 	await get_tree().process_frame
 	var autopilot = get_node("../AutoPilot")
@@ -31,36 +31,63 @@ func _ready():
 		print("SpaceEnvironment connected to AutoPilot")
 	else:
 		print("SpaceEnvironment: AutoPilot not found!")
+
+func discover_stations():
+	"""Scan all Destination nodes and build station system dynamically"""
+	station_positions.clear()
+	destination_nodes.clear()
 	
-	# Calculate actual journey distance from station positions
-	if station_positions.has("Station_A") and station_positions.has("Station_B"):
-		journey_distance = station_positions["Station_A"].distance_to(station_positions["Station_B"])
+	if not destinations_parent:
+		print("SpaceEnvironment: No Destinations parent found!")
+		return
+	
+	# Find all Destination nodes
+	for child in destinations_parent.get_children():
+		if child is Destination:
+			var station_name = child._name
+			station_positions[station_name] = child.global_position
+			destination_nodes[station_name] = child
+			print("Discovered station: ", station_name, " at ", child.global_position)
+	
+	print("Total stations discovered: ", station_positions.size())
+	
+	# Calculate journey distance (use distance between first two stations as default)
+	var station_names = station_positions.keys()
+	if station_names.size() >= 2:
+		journey_distance = station_positions[station_names[0]].distance_to(station_positions[station_names[1]])
+
+func get_station_names() -> Array:
+	"""Get list of all discovered station names"""
+	return station_positions.keys()
+
+func get_station_count() -> int:
+	"""Get total number of discovered stations"""
+	return station_positions.size()
 
 func _process(delta):
-	# This ensures we have delta time available for smooth vertical offset changes
 	pass
 
 func setup_at_station(station_name: String):
-	# Position stations when "docked" using the same logic as during flight
-	current_vertical_offset = 0.0
+	"""Position all stations when docked at a specific station"""
+	if not station_positions.has(station_name):
+		print("SpaceEnvironment: Unknown station: ", station_name)
+		return
 	
-	# Ship is virtually "at" the station position
+	current_vertical_offset = 0.0
 	var ship_virtual_world_pos = station_positions[station_name]
 	
-	# Position stations relative to ship using same logic as update_environment_positions
-	var station_a_world_pos = station_positions["Station_A"]
-	var station_b_world_pos = station_positions["Station_B"]
-	
-	# Calculate where each station should appear relative to ship
-	var station_a_relative = station_a_world_pos - ship_virtual_world_pos
-	var station_b_relative = station_b_world_pos - ship_virtual_world_pos
-	
-	# Apply the positions - origin_station is always Station A, destination_station is always Station B
-	origin_station.position = station_a_relative
-	destination_station.position = station_b_relative
+	# Position all destination nodes relative to ship
+	for dest_name in station_positions.keys():
+		var dest_world_pos = station_positions[dest_name]
+		var dest_relative = dest_world_pos - ship_virtual_world_pos
+		destination_nodes[dest_name].position = dest_relative
 
 func begin_departure(from_station: String, to_station: String):
-	# Set up initial positions for journey
+	"""Set up initial positions for journey between any two stations"""
+	if not station_positions.has(from_station) or not station_positions.has(to_station):
+		print("SpaceEnvironment: Invalid station names for journey")
+		return
+	
 	current_progress = 0.0
 	current_from = from_station
 	current_to = to_station
@@ -71,14 +98,13 @@ func begin_departure(from_station: String, to_station: String):
 	var from_pos = station_positions[from_station]
 	var to_pos = station_positions[to_station]
 	
-	# Calculate direction vector (destination - origin)
+	# Calculate direction vector
 	var direction = (to_pos - from_pos).normalized()
 	
 	# Set camera rotation to face direction of travel
-	# Godot camera default faces -Z, so we need to adjust
 	var target_rotation = Vector3()
-	target_rotation.y = atan2(direction.x, direction.z) + PI  # Add PI to flip 180 degrees
-	target_rotation.x = -asin(direction.y)  # Vertical rotation (pitch)
+	target_rotation.y = atan2(direction.x, direction.z) + PI
+	target_rotation.x = -asin(direction.y)
 	
 	ship_camera.rotation = target_rotation
 
@@ -87,6 +113,10 @@ func _on_progress_updated(progress: float):
 	update_environment_positions()
 
 func update_environment_positions():
+	"""Update positions of all stations during journey"""
+	if current_from == "" or current_to == "":
+		return
+	
 	# Calculate ship's virtual world position along journey path
 	var from_pos = station_positions[current_from]
 	var to_pos = station_positions[current_to]
@@ -95,7 +125,6 @@ func update_environment_positions():
 	# Check for station obstacles and calculate avoidance
 	var target_vertical_offset = 0.0
 	
-	# Check distance to all stations (except origin/destination during start/end phases)
 	for station_name in station_positions.keys():
 		# Skip avoidance for origin station in first 10% of journey
 		if station_name == current_from and current_progress < 0.1:
@@ -114,22 +143,15 @@ func update_environment_positions():
 	# Smooth vertical offset changes
 	current_vertical_offset = lerp(current_vertical_offset, target_vertical_offset, vertical_smoothing * get_process_delta_time())
 	
-	# Position stations relative to ship's virtual position
-	# Ship stays at (0,0,0), world moves around it
-	var station_a_world_pos = station_positions["Station_A"]
-	var station_b_world_pos = station_positions["Station_B"]
-	
-	# Calculate where each station should appear relative to ship
-	var station_a_relative = station_a_world_pos - ship_virtual_world_pos
-	var station_b_relative = station_b_world_pos - ship_virtual_world_pos
-	
-	# Apply the positions (with vertical offset for obstacle avoidance)
-	origin_station.position = station_a_relative + Vector3(0, -current_vertical_offset, 0)
-	destination_station.position = station_b_relative + Vector3(0, -current_vertical_offset, 0)
+	# Position all destination nodes relative to ship's virtual position
+	for dest_name in station_positions.keys():
+		var dest_world_pos = station_positions[dest_name]
+		var dest_relative = dest_world_pos - ship_virtual_world_pos
+		destination_nodes[dest_name].position = dest_relative + Vector3(0, -current_vertical_offset, 0)
 	
 	# Rotate starfield slowly for movement effect
 	starfield.rotation.z += 0.001
 
 func arrive_at_station(station_name: String):
-	# Final positioning when arriving
+	"""Final positioning when arriving at any station"""
 	setup_at_station(station_name)
