@@ -1,0 +1,294 @@
+[gd_scene load_steps=2 format=3 uid="uid://bq8y5vwx7jq2m"]
+
+[ext_resource type="Script" uid="uid://olvgg5qt2pdk" path="res://UI/game_ui.gd" id="1_ui"]
+
+[node name="GameUI" type="CanvasLayer"]
+script = ExtResource("1_ui")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopBar" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 50.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/TopBar"]
+layout_mode = 2
+
+[node name="MoneyLabel" type="Label" parent="Control/TopBar/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Money: $0"
+vertical_alignment = 1
+
+[node name="VSeparator1" type="VSeparator" parent="Control/TopBar/HBoxContainer"]
+layout_mode = 2
+
+[node name="FuelLabel" type="Label" parent="Control/TopBar/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fuel: 0 / 0"
+vertical_alignment = 1
+
+[node name="VSeparator2" type="VSeparator" parent="Control/TopBar/HBoxContainer"]
+layout_mode = 2
+
+[node name="DestinationLabel" type="Label" parent="Control/TopBar/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Destination: None"
+vertical_alignment = 1
+
+[node name="VSeparator3" type="VSeparator" parent="Control/TopBar/HBoxContainer"]
+layout_mode = 2
+
+[node name="ETALabel" type="Label" parent="Control/TopBar/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ETA: --"
+vertical_alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -400.0
+offset_bottom = 400.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer"]
+layout_mode = 2
+
+[node name="TabButtons" type="HBoxContainer" parent="Control/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="StationTab" type="Button" parent="Control/PanelContainer/VBoxContainer/TabButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Station"
+
+[node name="ContractsTab" type="Button" parent="Control/PanelContainer/VBoxContainer/TabButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Contracts"
+
+[node name="ShipTab" type="Button" parent="Control/PanelContainer/VBoxContainer/TabButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+text = "Ship"
+
+[node name="TabContent" type="Control" parent="Control/PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(580, 750)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="StationPanel" type="Control" parent="Control/PanelContainer/VBoxContainer/TabContent"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/PanelContainer/VBoxContainer/TabContent/StationPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer/VBoxContainer/TabContent/StationPanel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StationHeader" type="Label" parent="Control/PanelContainer/VBoxContainer/TabContent/StationPanel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Station: Unknown"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="Control/PanelContainer/VBoxContainer/TabContent/StationPanel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Status"
+horizontal_alignment = 1
+
+[node name="Separator1" type="HSeparator" parent="Control/PanelContainer/VBoxContainer/TabContent/StationPanel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="RefuelButton" type="Button" parent="Control/PanelContainer/VBoxContainer/TabContent/StationPanel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Refuel"
+
+[node name="UpgradeSpeedButton" type="Button" parent="Control/PanelContainer/VBoxContainer/TabContent/StationPanel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Upgrade Speed"
+
+[node name="UpgradeFuelButton" type="Button" parent="Control/PanelContainer/VBoxContainer/TabContent/StationPanel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Upgrade Fuel Capacity"
+
+[node name="UpgradeCargoButton" type="Button" parent="Control/PanelContainer/VBoxContainer/TabContent/StationPanel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Upgrade Cargo Capacity"
+
+[node name="SetDestinationButton" type="Button" parent="Control/PanelContainer/VBoxContainer/TabContent/StationPanel/ScrollContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Set as Destination"
+
+[node name="Separator2" type="HSeparator" parent="Control/PanelContainer/VBoxContainer/TabContent/StationPanel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ContractsContainer" type="VBoxContainer" parent="Control/PanelContainer/VBoxContainer/TabContent/StationPanel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ContractsPanel" type="Control" parent="Control/PanelContainer/VBoxContainer/TabContent"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/PanelContainer/VBoxContainer/TabContent/ContractsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer/VBoxContainer/TabContent/ContractsPanel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Header" type="Label" parent="Control/PanelContainer/VBoxContainer/TabContent/ContractsPanel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Active Contracts (0/50 cargo)"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="Control/PanelContainer/VBoxContainer/TabContent/ContractsPanel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ContractsContainer" type="VBoxContainer" parent="Control/PanelContainer/VBoxContainer/TabContent/ContractsPanel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ShipPanel" type="Control" parent="Control/PanelContainer/VBoxContainer/TabContent"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+layout_mode = 2
+text = "Ship Status"
+horizontal_alignment = 1
+
+[node name="Separator1" type="HSeparator" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="FuelBar" type="ProgressBar" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="FuelLabel" type="Label" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+layout_mode = 2
+text = "Fuel: 700 / 700 (100%)"
+
+[node name="Separator2" type="HSeparator" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="SpeedLabel" type="Label" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+layout_mode = 2
+text = "Speed: 5.0 units/sec"
+
+[node name="CargoLabel" type="Label" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+layout_mode = 2
+text = "Cargo Capacity: 0 / 50 units"
+
+[node name="Separator3" type="HSeparator" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="DestinationLabel" type="Label" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+layout_mode = 2
+text = "Destination: None"
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+show_percentage = false
+
+[node name="ProgressLabel" type="Label" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Progress: 0%"
+
+[node name="Separator4" type="HSeparator" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="FlightButton" type="Button" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+layout_mode = 2
+text = "Start Flight"
+
+[node name="Spacer" type="Control" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Separator5" type="HSeparator" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="NewGameButton" type="Button" parent="Control/PanelContainer/VBoxContainer/TabContent/ShipPanel/VBoxContainer"]
+layout_mode = 2
+text = "New Game (Delete Save)"
+
+[node name="CollapseButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -20.0
+offset_right = -10.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+text = "<"

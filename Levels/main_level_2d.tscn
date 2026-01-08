@@ -1,0 +1,77 @@
+[gd_scene load_steps=9 format=3 uid="uid://ce42v5jkbw5os"]
+
+[ext_resource type="Script" uid="uid://bslbqusdfpg0p" path="res://Game_Management/main_level_2d.gd" id="1_main"]
+[ext_resource type="Script" uid="uid://cxiyanqp3yc73" path="res://Game_Management/map_system.gd" id="2_map"]
+[ext_resource type="Script" uid="uid://kggw3tbwop0v" path="res://Objects/Ship/ship_2d.gd" id="3_ship"]
+[ext_resource type="Script" uid="uid://jkcufcxoem6j" path="res://Objects/Ship/auto_pilot.gd" id="4_autopilot"]
+[ext_resource type="Script" uid="uid://b1n7fp6cjo61p" path="res://Player/money.gd" id="5_money"]
+[ext_resource type="Script" uid="uid://b2fjevtr22nfg" path="res://Game_Management/contract_system.gd" id="6_contract_system"]
+[ext_resource type="PackedScene" uid="uid://bq8y5vwx7jq2m" path="res://UI/game_ui.tscn" id="7_game_ui"]
+[ext_resource type="Script" uid="uid://bay4bkqjn3myr" path="res://Levels/debug_ui.gd" id="8_debug_ui"]
+
+[node name="MainLevel2D" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="MapSystem" type="Node2D" parent="."]
+script = ExtResource("2_map")
+
+[node name="Camera2D" type="Camera2D" parent="MapSystem"]
+
+[node name="StationsContainer" type="Node2D" parent="MapSystem"]
+
+[node name="Ship" type="Node2D" parent="MapSystem"]
+script = ExtResource("3_ship")
+
+[node name="AutoPilot" type="Node" parent="."]
+script = ExtResource("4_autopilot")
+
+[node name="Money" type="Node" parent="."]
+script = ExtResource("5_money")
+
+[node name="ContractSystem" type="Node" parent="."]
+script = ExtResource("6_contract_system")
+
+[node name="GameUI" parent="." instance=ExtResource("7_game_ui")]
+
+[node name="DebugUI" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("8_debug_ui")
+
+[node name="Panel" type="Panel" parent="DebugUI"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 410.0
+offset_bottom = 150.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DebugUI/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StatusLabel" type="Label" parent="DebugUI/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Station: Loading..."
+
+[node name="FuelLabel" type="Label" parent="DebugUI/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Fuel: 0 / 0 (0%)"
+
+[node name="MoneyLabel" type="Label" parent="DebugUI/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Money: $0"
+
+[node name="JourneyLabel" type="Label" parent="DebugUI/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Click a station to travel"
